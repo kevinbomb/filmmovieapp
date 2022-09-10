@@ -7,6 +7,7 @@ import android.widget.Button
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
+import androidx.appcompat.app.AlertDialog
 
 class MainActivity : AppCompatActivity() {
 
@@ -43,7 +44,15 @@ class MainActivity : AppCompatActivity() {
                 checkLogin=false
             }
 
-            if(username=="admin"&&password=="0561")checkLogin=true
+            if(username=="admin"&&password=="0561"){
+                checkLogin=true
+            }else{
+                val builder: AlertDialog.Builder = AlertDialog.Builder(this@MainActivity)
+                builder.setTitle("Username atau Password")
+                builder.setMessage("Username / Password salah!")
+                    .setPositiveButton("oke"){ dialog, which -> }
+                    .show()
+            }
             if(!checkLogin)return@OnClickListener
             val moveHome=Intent(this@MainActivity,HomeActivity::class.java)
             startActivity(moveHome)
