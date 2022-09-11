@@ -93,7 +93,7 @@ class RegisterActivity : AppCompatActivity() {
                 checkLogin=false
             }
 
-            if(!username.isEmpty()&&!password.isEmpty()&&email.isEmpty()&&telp.isEmpty()&&tgl.isEmpty()){
+            if(!username.isEmpty() && !password.isEmpty()&& !email.isEmpty() && !telp.isEmpty()&& !tgl.isEmpty()){
                 checkLogin=true
 
             }
