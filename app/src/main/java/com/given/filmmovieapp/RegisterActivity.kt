@@ -71,19 +71,29 @@ class RegisterActivity : AppCompatActivity() {
             if(username.isEmpty()){
                 inputUsername.setError("Username must be filled with text")
                 checkLogin=false
-            }else if(password.isEmpty()){
+            }
+
+            if(password.isEmpty()){
                 inputPassword.setError("Password must be filled with text")
                 checkLogin=false
-            }else if(email.isEmpty()){
+            }
+
+            if(email.isEmpty()){
                 inputEmail.setError("Email must be filled with text")
                 checkLogin=false
-            }else if(tgl.isEmpty()){
+            }
+
+            if(tgl.isEmpty()){
                 inputTanggal.setError("Tanggal must be filled with text")
                 checkLogin=false
-            }else if(telp.isEmpty()){
+            }
+
+            if(telp.isEmpty()){
                 noTelp.setError("Telp must be filled with text")
                 checkLogin=false
-            }else{
+            }
+
+            if(!username.isEmpty()&&!password.isEmpty()&&email.isEmpty()&&telp.isEmpty()&&tgl.isEmpty()){
                 checkLogin=true
 
             }
