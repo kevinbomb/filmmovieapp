@@ -121,13 +121,16 @@
             android:hint="Birth Date"
             app:errorEnabled="true"
             app:startIconDrawable="@drawable/ic_baseline_calendar"
-            android:layout_marginBottom="0dp">
+            android:layout_marginBottom="0dp"
+            >
+
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text"
+                android:editable="false"
+
                 />
         </com.google.android.material.textfield.TextInputLayout>
 
