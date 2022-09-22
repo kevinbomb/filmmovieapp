@@ -68,6 +68,7 @@
             android:hint="Password"
             app:errorEnabled="true"
             app:startIconDrawable="@drawable/ic_baseline_lock_24"
+            app:endIconMode="password_toggle"
             >
 
             <com.google.android.material.textfield.TextInputEditText
