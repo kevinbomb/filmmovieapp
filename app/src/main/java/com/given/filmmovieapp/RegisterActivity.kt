@@ -10,8 +10,8 @@ import android.view.View
 import com.google.android.material.textfield.TextInputLayout
 import android.widget.DatePicker
 import com.given.filmmovieapp.databinding.ActivityRegisterBinding
-import com.given.filmmovieapp.room.User
-import com.given.filmmovieapp.room.UserDB
+import com.given.filmmovieapp.room.user.User
+import com.given.filmmovieapp.room.user.UserDB
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

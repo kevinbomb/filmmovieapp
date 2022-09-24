@@ -1,4 +1,4 @@
-package com.given.filmmovieapp.room
+package com.given.filmmovieapp.room.user
 
 class Constant {
     companion object{

@@ -1,4 +1,4 @@
-package com.given.filmmovieapp.room
+package com.given.filmmovieapp.room.user
 
 import android.content.Context
 import androidx.room.Database

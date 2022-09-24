@@ -1,4 +1,4 @@
-package com.given.filmmovieapp.room
+package com.given.filmmovieapp.room.user
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
