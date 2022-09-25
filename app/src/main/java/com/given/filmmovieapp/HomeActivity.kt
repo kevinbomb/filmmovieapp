@@ -23,6 +23,7 @@ class HomeActivity : AppCompatActivity() {
         bottom.setOnNavigationItemSelectedListener {
             when(it.itemId){
                 R.id.menu_film -> changeFragment(FragmentFilm())
+                R.id.menu_upcoming -> changeFragment(FragmentUpcoming())
                 R.id.menu_profil->changeFragment(FragmentProfile())
                 R.id.menu_exit->logout()
             }

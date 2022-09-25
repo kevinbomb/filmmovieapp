@@ -3,8 +3,9 @@
     <item android:id="@+id/menu_film"
         android:icon="@drawable/ic_baseline_movie_24"
         android:title="Film"/>
-
-
+    <item android:id="@+id/menu_upcoming"
+        android:icon="@drawable/ic_baseline_fiber_new_24"
+        android:title="Upcoming"/>
     <item android:id="@+id/menu_profil"
         android:icon="@drawable/ic_baseline_person_pin_24"
         android:title="Profil"/>
@@ -12,4 +13,6 @@
     <item android:id="@+id/menu_exit"
         android:icon="@drawable/ic_baseline_exit_to_app_24"
         android:title="Exit App"/>
+
+
 </menu>

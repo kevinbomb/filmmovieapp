@@ -87,6 +87,7 @@
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             android:text="Edit Profile"
+            android:backgroundTint="#1F36C1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.852"
             app:layout_constraintStart_toStartOf="parent"
