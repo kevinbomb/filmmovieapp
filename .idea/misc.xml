@@ -3,11 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/AndroidStudioProject/Kotlin/filmmovieapp/app/src/main/res/layout/activity_edit_profile.xml" value="0.1" />
+        <entry key="..\:/AndroidStudioProject/Kotlin/filmmovieapp/app/src/main/res/layout/activity_edit_profile.xml" value="0.264" />
         <entry key="..\:/AndroidStudioProject/Kotlin/filmmovieapp/app/src/main/res/layout/activity_edit_upcoming.xml" value="0.259375" />
         <entry key="..\:/AndroidStudioProject/Kotlin/filmmovieapp/app/src/main/res/layout/activity_home.xml" value="0.16" />
         <entry key="..\:/AndroidStudioProject/Kotlin/filmmovieapp/app/src/main/res/layout/activity_main.xml" value="0.18432971014492755" />
         <entry key="..\:/AndroidStudioProject/Kotlin/filmmovieapp/app/src/main/res/layout/activity_register.xml" value="0.1" />
+        <entry key="..\:/AndroidStudioProject/Kotlin/filmmovieapp/app/src/main/res/layout/activity_splash_screen.xml" value="0.12613981762917933" />
         <entry key="..\:/AndroidStudioProject/Kotlin/filmmovieapp/app/src/main/res/layout/fragment_edit_profile.xml" value="0.264" />
         <entry key="..\:/AndroidStudioProject/Kotlin/filmmovieapp/app/src/main/res/layout/fragment_film.xml" value="0.259375" />
         <entry key="..\:/AndroidStudioProject/Kotlin/filmmovieapp/app/src/main/res/layout/fragment_profile.xml" value="0.4" />

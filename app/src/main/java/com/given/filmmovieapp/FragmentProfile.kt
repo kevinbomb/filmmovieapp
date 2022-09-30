@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.given.filmmovieapp.databinding.ActivityHomeBinding
@@ -31,80 +32,59 @@ import kotlinx.coroutines.launch
  * create an instance of this fragment.
  */
 class FragmentProfile : Fragment() {
-    //database
-    val dbU by lazy { UserDB(requireActivity()) }
+    val dbUser by lazy { UserDB(requireContext()) }
 
-    private var _binding: FragmentProfileBinding? = null
+    lateinit var viewUsername: TextView
+    lateinit var viewEmail: TextView
+    lateinit var viewTelepon: TextView
+    lateinit var viewTanggal: TextView
 
-    private val binding get() = _binding!!
-    var showUsername: String? = null
-    var showPass: String? = null
-    var tempID: Int = 0
 
-    lateinit var buttonEdit:Button
-    private val myPreference = "myPref"
-    private val usernameK = "usernameKey"
-    private val passK = "passKey"
-    var sharedPreferencesProfile: SharedPreferences? = null
+    lateinit var btnUpdate:Button
+
+    var binding: ActivityHomeBinding? = null
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        _binding = FragmentProfileBinding.inflate(inflater, container, false)
-        val view = binding.root
-        return view
-
+        return inflater.inflate(R.layout.fragment_profile, container, false)
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?){
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        getspData()
-        getProfileData(showUsername.toString())
+        viewUsername=view.findViewById(R.id.tvUsername)
+        viewEmail=view.findViewById(R.id.tvEmail)
+        viewTelepon=view.findViewById(R.id.tvPhone)
+        viewTanggal=view.findViewById(R.id.tvDate)
+
+        btnUpdate=view.findViewById(R.id.buttonEdit)
 
 
+        val userId= requireActivity().intent.getIntExtra("idLogin",0)
+        CoroutineScope(Dispatchers.IO).launch{
+            println("user id=" + userId)
+            val resultCheckUser: List<User> = dbUser.userDao().getUserId(userId)
+            println("hasil=" + resultCheckUser)
+            viewUsername.setText(resultCheckUser[0].username)
+            viewEmail.setText(resultCheckUser[0].email)
+            viewTelepon.setText(resultCheckUser[0].noTelepon)
+            viewTanggal.setText(resultCheckUser[0].tanggalLahir)
 
-//        binding.buttonEdit.setOnClickListener{
-//            intentEdit(tempID, 2)
-//        }
-    }
-
-    fun getspData(){
-        sharedPreferencesProfile = this.getActivity()?.getSharedPreferences(myPreference, Context.MODE_PRIVATE)
-        if (sharedPreferencesProfile!!.contains(usernameK)){
-            showUsername = sharedPreferencesProfile!!.getString(usernameK, "")
         }
-        if (sharedPreferencesProfile!!.contains(passK)){
-            showPass = sharedPreferencesProfile!!.getString(passK, "")
+
+        val tempId = userId
+
+        btnUpdate.setOnClickListener {
+            startActivity(
+                Intent(requireActivity().applicationContext, EditProfileActivity::class.java)
+                    .putExtra("intent_id", tempId)
+                    .putExtra("intent_type", 2)
+            )
         }
+
+
     }
-
-    private fun getProfileData(str: String){
-        CoroutineScope(Dispatchers.Main).launch {
-            val user = dbU.userDao().getUserName(str)[0]
-            binding.tvUsername.setText(user.username)
-            binding.tvDate.setText((user.tanggalLahir))
-            binding.tvPhone.setText(user.noTelepon)
-            binding.tvEmail.setText(user.email)
-
-            tempID = user.id
-        }
-    }
-
-
-
-//    fun intentEdit(id_input: Int, intentType: Int){
-//        startActivity(
-//            Intent(requireActivity().applicationContext, EditProfileActivity::class.java)
-//                .putExtra("intent_id", id_input)
-//                .putExtra("intent_type", intentType)
-//        )
-//    }
 }
