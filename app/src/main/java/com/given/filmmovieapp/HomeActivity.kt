@@ -17,7 +17,7 @@ class HomeActivity : AppCompatActivity() {
 
         setTitle("Cinema AJ21")
 
-        changeFragment(FragmentFilm())
+        changeFragment(FragmentUpcoming())
 
         val bottom: BottomNavigationView = findViewById(R.id.bottomNav)
         bottom.setOnNavigationItemSelectedListener {

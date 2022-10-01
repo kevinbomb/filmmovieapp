@@ -20,7 +20,6 @@ import com.google.android.material.textfield.TextInputLayout
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import com.given.filmmovieapp.notification.NotificationReceiver
 import com.given.filmmovieapp.room.user.User
 import com.given.filmmovieapp.room.user.UserDB
 import kotlinx.coroutines.CoroutineScope
