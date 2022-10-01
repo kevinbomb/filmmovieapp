@@ -13,7 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Filmmovieapp"
         tools:targetApi="31">
-
+        <activity
+            android:name=".EditProfileActivity"
+            android:exported="false" />
         <activity
             android:name=".EditUpcomingActivity"
             android:exported="false" />
@@ -35,6 +37,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <service android:name=".notification.MyFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+        <receiver android:name=".notification.NotificationReceiver"/>
     </application>
 
 </manifest>
