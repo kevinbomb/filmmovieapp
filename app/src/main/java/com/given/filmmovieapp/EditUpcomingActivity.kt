@@ -94,20 +94,6 @@ class EditUpcomingActivity : AppCompatActivity() {
 
     }
 
-    private fun createNotificationChannel(){
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-            val name = "Notification Title"
-            val descriptionText = "Notification Description"
-
-            val channel1 = NotificationChannel(CHANNEL_ID_1, name, NotificationManager.IMPORTANCE_DEFAULT).apply {
-                description = descriptionText
-            }
-
-            val notificationManager: NotificationManager =
-                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.createNotificationChannel(channel1)
-        }
-    }
 
     private fun sendNotificationSuccessEdit(){
         val intent : Intent = Intent(this, HomeActivity::class.java).apply {
