@@ -46,9 +46,8 @@ class RegisterActivity : AppCompatActivity() {
     var sharedPreferencesRegister: SharedPreferences? = null
 
     private val CHANNEL_ID_1 = "channel_notification_01"
-    private val CHANNEL_ID_2 = "channel_notification_02"
     private val notificationId1 = 101
-    private val notificationId2 = 102
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        setContentView(R.layout.activity_register)
@@ -155,14 +154,9 @@ class RegisterActivity : AppCompatActivity() {
                 description = descriptionText
             }
 
-            val channel2 = NotificationChannel(CHANNEL_ID_2, title, NotificationManager.IMPORTANCE_DEFAULT).apply {
-                description = descriptionText
-            }
-
             val notificationManager: NotificationManager =
                 getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel1)
-            notificationManager.createNotificationChannel(channel2)
         }
     }
 
