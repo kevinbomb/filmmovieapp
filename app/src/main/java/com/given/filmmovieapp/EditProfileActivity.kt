@@ -74,7 +74,7 @@ class EditProfileActivity : AppCompatActivity() {
                         )
                     )
                     finish()
-                    val intent= Intent(this@EditProfileActivity, HomeActivity::class.java)
+                    val intent= Intent(this@EditProfileActivity, MainActivity::class.java)
                     startActivity(intent)
                 }
             }
