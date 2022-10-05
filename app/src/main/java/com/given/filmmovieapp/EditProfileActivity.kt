@@ -66,9 +66,9 @@ class EditProfileActivity : AppCompatActivity() {
                     dbU.userDao().updateUser(
                         User(
                             tempId,
+                            binding.editEmail.editText?.text.toString(),
                             binding.editUsername.editText?.text.toString(),
                             binding.editPassword.editText?.text.toString(),
-                            binding.editEmail.editText?.text.toString(),
                             binding.editTanggal.editText?.text.toString(),
                             binding.editTelp.editText?.text.toString()
                         )

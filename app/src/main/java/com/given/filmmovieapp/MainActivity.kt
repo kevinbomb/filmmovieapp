@@ -20,6 +20,8 @@ import com.google.android.material.textfield.TextInputLayout
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import com.given.filmmovieapp.databinding.ActivityMainBinding
+import com.given.filmmovieapp.databinding.ActivityRegisterBinding
 import com.given.filmmovieapp.room.user.User
 import com.given.filmmovieapp.room.user.UserDB
 import kotlinx.coroutines.CoroutineScope
@@ -27,14 +29,15 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var inputUsername: TextInputLayout
-    private lateinit var inputPassword: TextInputLayout
-
-    private lateinit var btnLogin: Button
-    private lateinit var btnRegister: Button
-    private lateinit var mainLayout: ConstraintLayout
+//    private lateinit var inputUsername: TextInputLayout
+//    private lateinit var inputPassword: TextInputLayout
+//
+//    private lateinit var btnLogin: Button
+//    private lateinit var btnRegister: Button
+//    private lateinit var mainLayout: ConstraintLayout
 
     val dbU by lazy { UserDB(this) }
+    private lateinit var binding: ActivityMainBinding
 
     private val myPreference = "myPref"
     private val usernameK = "usernameKey"
@@ -47,29 +50,32 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         supportActionBar?.hide()
 
-        mainLayout = findViewById(R.id.mainLayout)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        inputUsername = findViewById(R.id.inputLayoutUsername)
-        inputPassword = findViewById(R.id.inputLayoutPassword)
-        btnLogin = findViewById(R.id.btnLogin)
-        btnRegister=findViewById(R.id.btnRegister)!!
+//        mainLayout = findViewById(R.id.mainLayout)
+//
+//        inputUsername = findViewById(R.id.inputLayoutUsername)
+//        inputPassword = findViewById(R.id.inputLayoutPassword)
+//        btnLogin = findViewById(R.id.btnLogin)
+//        btnRegister=findViewById(R.id.btnRegister)!!
 
         getBundle()
 
 
-        btnLogin.setOnClickListener (View.OnClickListener {
+        binding?.btnLogin?.setOnClickListener (View.OnClickListener {
             var cekLogin = false
 
-            val username: String = inputUsername.getEditText()?.getText().toString()
-            val password: String = inputPassword.getEditText()?.getText().toString()
+            val username: String = binding?.inputLayoutUsername?.getEditText()?.getText().toString()
+            val password: String = binding?.inputLayoutPassword?.getEditText()?.getText().toString()
 
             if(username.isEmpty()){
-                inputUsername.setError("Username Tidak Boleh Kosong")
+                binding?.inputLayoutUsername?.setError("Username Tidak Boleh Kosong")
                 cekLogin = false
             }
 
             if(password.isEmpty()){
-                inputPassword.setError("Password Tidak Boleh Kosong")
+                binding?.inputLayoutPassword?.setError("Password Tidak Boleh Kosong")
                 cekLogin = false
             }
 
@@ -78,7 +84,7 @@ class MainActivity : AppCompatActivity() {
                 println("hasil: " + resultCheckUser)
 
                 if(resultCheckUser.isNullOrEmpty()){
-                    Snackbar.make(mainLayout,"Username atau Password Salah!", Snackbar.LENGTH_LONG).show()
+                    Snackbar.make(binding.mainLayout,"Username atau Password Salah!", Snackbar.LENGTH_LONG).show()
                     return@launch
                 }
 
@@ -102,7 +108,7 @@ class MainActivity : AppCompatActivity() {
 
         })
 
-        btnRegister.setOnClickListener{
+        binding?.btnRegister?.setOnClickListener{
 
             val moveRegister=Intent(this,RegisterActivity::class.java)
             startActivity(moveRegister)
@@ -113,10 +119,10 @@ class MainActivity : AppCompatActivity() {
 
         sharedPreferencesRegister = getSharedPreferences(myPreference, Context.MODE_PRIVATE)
         if (sharedPreferencesRegister!!.contains(usernameK)){
-            inputUsername.getEditText()?.setText(sharedPreferencesRegister!!.getString(usernameK, ""))
+            binding?.inputLayoutUsername?.getEditText()?.setText(sharedPreferencesRegister!!.getString(usernameK, ""))
         }
         if (sharedPreferencesRegister!!.contains(passK)){
-            inputPassword.getEditText()?.setText(sharedPreferencesRegister!!.getString(passK, ""))
+            binding?.inputLayoutPassword?.getEditText()?.setText(sharedPreferencesRegister!!.getString(passK, ""))
         }
     }
 
