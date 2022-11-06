@@ -9,12 +9,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.given.filmmovieapp.databinding.ActivityHomeBinding
 import com.given.filmmovieapp.databinding.FragmentProfileBinding
 import com.given.filmmovieapp.room.user.User
 import com.given.filmmovieapp.room.user.UserDB
@@ -34,33 +31,34 @@ import kotlinx.coroutines.launch
 class FragmentProfile : Fragment() {
     val dbUser by lazy { UserDB(requireContext()) }
 
-    lateinit var viewUsername: TextView
-    lateinit var viewEmail: TextView
-    lateinit var viewTelepon: TextView
-    lateinit var viewTanggal: TextView
+    private var _binding: FragmentProfileBinding? = null
+    private val binding get() = _binding!!
+//    lateinit var viewUsername: TextView
+//    lateinit var viewEmail: TextView
+//    lateinit var viewTelepon: TextView
+//    lateinit var viewTanggal: TextView
+//
+//    lateinit var btnCamera: ImageView
+//    lateinit var btnUpdate:Button
 
 
-    lateinit var btnUpdate:Button
 
-    var binding: ActivityHomeBinding? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_profile, container, false)
+        _binding = FragmentProfileBinding.inflate(inflater, container, false)
+        val view = binding.root
+        return view
     }
-
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        viewUsername=view.findViewById(R.id.tvUsername)
-        viewEmail=view.findViewById(R.id.tvEmail)
-        viewTelepon=view.findViewById(R.id.tvPhone)
-        viewTanggal=view.findViewById(R.id.tvDate)
-
-        btnUpdate=view.findViewById(R.id.buttonEdit)
 
 
         val userId= requireActivity().intent.getIntExtra("idLogin",0)
@@ -68,23 +66,31 @@ class FragmentProfile : Fragment() {
             println("user id=" + userId)
             val resultCheckUser: List<User> = dbUser.userDao().getUserId(userId)
             println("hasil=" + resultCheckUser)
-            viewUsername.setText(resultCheckUser[0].username)
-            viewEmail.setText(resultCheckUser[0].email)
-            viewTelepon.setText(resultCheckUser[0].noTelepon)
-            viewTanggal.setText(resultCheckUser[0].tanggalLahir)
+            binding.tvUsername.setText(resultCheckUser[0].username)
+            binding.tvEmail.setText(resultCheckUser[0].email)
+            binding.tvPhone.setText(resultCheckUser[0].noTelepon)
+            binding.tvDate.setText(resultCheckUser[0].tanggalLahir)
 
         }
 
         val tempId = userId
 
-        btnUpdate.setOnClickListener {
+        binding.buttonEdit.setOnClickListener {
             startActivity(
                 Intent(requireActivity().applicationContext, EditProfileActivity::class.java)
                     .putExtra("intent_id", tempId)
                     .putExtra("intent_type", 2)
             )
         }
+        binding.imageView3.setOnClickListener {
+            openCamera()
+        }
 
+    }
 
+    fun openCamera(){
+        startActivity(
+            Intent(requireActivity().applicationContext, CameraActivity::class.java)
+        )
     }
 }
