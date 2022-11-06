@@ -1,0 +1,46 @@
+{
+  "results": [
+    {
+      "geometry": {
+        "location": {
+          "lat": -7.779433,
+          "lng": 110.415782
+        }
+      },
+      "name": "Pusat AtmaJaya 21",
+      "vicinity": "Jl. Babarsari No.43, Janti, Caturtunggal, Kec. Depok, Kabupaten Sleman, Daerah Istimewa Yogyakarta 55281"
+    },
+    {
+      "geometry": {
+        "location": {
+          "lat": -7.779302563344273,
+          "lng": 110.41436956810416
+        }
+      },
+      "name": "Cabang J-Walk",
+      "vicinity": "Jl. Babarsari, Janti, Caturtunggal, Kec. Depok, Kabupaten Sleman, Daerah Istimewa Yogyakarta 55281"
+    },
+    {
+      "geometry": {
+        "location": {
+          "lat": -7.782916780502359,
+          "lng": 110.4200236646912
+        }
+      },
+      "name": "Cabang Transmart Maguwoharjo",
+      "vicinity": "Jl. Raya Solo KM. 8 No. 234, Kalongan, Maguwoharjo, Kec. Depok, Kabupaten Sleman, Daerah Istimewa Yogyakarta 55282"
+    }
+  ,
+    {
+      "geometry": {
+        "location": {
+          "lat": -7.78238301845613,
+          "lng": 110.40138772307573
+        }
+      },
+      "name": "Cabang Ambarukmo Plaza",
+      "vicinity": "Jl. Laksda Adisucipto No.80, Ambarukmo, Caturtunggal, Kec. Depok, Kabupaten Sleman, Daerah Istimewa Yogyakarta 55281"
+    }
+  ],
+  "status": "OK"
+}
