@@ -15,6 +15,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Filmmovieapp"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
             android:name=".AddEditActivity"
@@ -24,14 +25,15 @@
                 android:value="" />
         </activity>
         <activity
+            android:name=".UpcomingActivity"
+            android:exported="false" />
+        <activity
             android:name=".CameraActivity"
             android:exported="false" />
         <activity
             android:name=".EditProfileActivity"
             android:exported="false" />
-        <activity
-            android:name=".EditUpcomingActivity"
-            android:exported="false" />
+
         <activity
             android:name=".HomeActivity"
             android:exported="false" />

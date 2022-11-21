@@ -1,70 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".FragmentUpcoming">
+    tools:context=".FragmentProfile">
 
-    <LinearLayout
-        android:id="@+id/crud_ly1"
+
+    <Button
+        android:id="@+id/buttonUpcoming"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/divid_ly1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:orientation="vertical">
+        android:text="Show UPCOMING" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnCreate"
-            style="@style/ThemeOverlay.Material3.Button.ElevatedButton"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="10dp"
-            android:backgroundTint="#1F36C1"
-            android:text="Tambah Film Baru"
-            app:icon="@drawable/ic_baseline_movie_creation_24" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/divid_ly1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/crud_ly1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-        <com.google.android.material.divider.MaterialDivider
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#1F36C1"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/card_ly1"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:padding="8dp"
-        app:layout_constraintTop_toBottomOf="@id/divid_ly1"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:elevation="3dp"
-        android:orientation="vertical">
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_upcoming"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:listitem="@layout/rv_item_upcoming"/>
-        </ScrollView>
-    </LinearLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

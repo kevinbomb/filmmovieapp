@@ -1,6 +1,7 @@
 package com.given.filmmovieapp
 
 import android.content.DialogInterface
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -8,6 +9,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import com.given.filmmovieapp.models.Upcoming
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class HomeActivity : AppCompatActivity() {
@@ -17,13 +19,14 @@ class HomeActivity : AppCompatActivity() {
 
         setTitle("Cinema AJ21")
 
-        changeFragment(FragmentUpcoming())
+        changeFragment(FragmentFilm())
 
         val bottom: BottomNavigationView = findViewById(R.id.bottomNav)
         bottom.setOnNavigationItemSelectedListener {
             when(it.itemId){
                 R.id.menu_film -> changeFragment(FragmentFilm())
-                R.id.menu_upcoming -> changeFragment(FragmentUpcoming())
+                R.id.menu_upcoming -> startActivity(Intent(this@HomeActivity, UpcomingActivity::class.java))
+
                 R.id.menu_profil->changeFragment(FragmentProfile())
                 R.id.menu_map->changeFragment(LokasiFragment())
                 R.id.menu_exit->logout()

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/cv_mahasiswa"
+    android:id="@+id/cv_upcoming"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="2dp"
@@ -61,7 +61,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/tv_prodi"
+                    android:id="@+id/tv_sinopsis"
                     style="@style/TextAppearance.MaterialComponents.Body2"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
