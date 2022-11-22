@@ -8,6 +8,7 @@ import android.view.WindowManager
 import android.widget.LinearLayout
 import android.widget.SearchView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -74,7 +75,8 @@ class UpcomingActivity : AppCompatActivity() {
         val stringRequest: StringRequest = object :
             StringRequest(Method.GET, UpcomingApi.GET_ALL_URL, Response.Listener { response ->
                 val gson = Gson()
-                var upcoming : Array<Upcoming> = gson.fromJson(response, Array<Upcoming>::class.java)
+                val jsonObject = JSONObject(response)
+                var upcoming : Array<Upcoming> = gson.fromJson(jsonObject.getJSONArray("data").toString(), Array<Upcoming>::class.java)
 
                 adapter!!.setUpcomingList(upcoming)
                 adapter!!.filter.filter(svUpcoming!!.query)
@@ -88,9 +90,11 @@ class UpcomingActivity : AppCompatActivity() {
                         .show()
             }, Response.ErrorListener { error ->
                 srUpcoming!!.isRefreshing = false
+                AlertDialog.Builder(this)
+                    .setMessage(error.message)
+                    .show()
                 try {
-                    val responseBody =
-                        String(error.networkResponse.data, StandardCharsets.UTF_8)
+                    val responseBody = String(error.networkResponse.data, StandardCharsets.UTF_8)
                     val errors = JSONObject(responseBody)
                     Toast.makeText(
                         this@UpcomingActivity,

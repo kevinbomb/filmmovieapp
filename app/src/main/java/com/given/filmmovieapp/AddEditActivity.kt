@@ -63,7 +63,8 @@ class AddEditActivity : AppCompatActivity() {
         val stringRequest: StringRequest = object :
             StringRequest(Method.GET, UpcomingApi.GET_BY_ID_URL + id, Response.Listener { response ->
                 val gson = Gson()
-                val upcoming = gson.fromJson(response, Upcoming::class.java)
+                val jsonObject = JSONObject(response)
+                val upcoming = gson.fromJson(jsonObject.getJSONArray("data")[0].toString(), Upcoming::class.java)
 
                 etJudul!!.setText(upcoming.judul)
                 etDirektur!!.setText(upcoming.direktur)
@@ -110,7 +111,16 @@ class AddEditActivity : AppCompatActivity() {
         val stringRequest: StringRequest =
             object : StringRequest(Method.POST, UpcomingApi.ADD_URL, Response.Listener { response ->
                 val gson = Gson()
-                var upcoming = gson.fromJson(response, Upcoming::class.java)
+                println("111")
+
+                val jsonObject = JSONObject(response)
+                println("222")
+
+                val upcoming = gson.fromJson(jsonObject.getJSONArray("data")[0].toString(), Upcoming::class.java)
+
+                println("333")
+
+//                var upcoming = gson.fromJson(response, Upcoming::class.java)
 
                 if(upcoming != null)
                     Toast.makeText( this@AddEditActivity, "Data berhasil ditambahkan", Toast.LENGTH_SHORT).show()
@@ -121,6 +131,7 @@ class AddEditActivity : AppCompatActivity() {
 
                 setLoading(false)
             }, Response.ErrorListener { error ->
+                println("444")
                 setLoading(false)
                 try {
                     val respondBody = String(error.networkResponse.data, StandardCharsets.UTF_8)
@@ -129,8 +140,8 @@ class AddEditActivity : AppCompatActivity() {
                         this@AddEditActivity, errors.getString("messsage"),
                         Toast.LENGTH_SHORT
                     ).show()
-                } catch (e: Exception){
-                    Toast.makeText(this@AddEditActivity, e.message, Toast.LENGTH_SHORT).show()
+                } catch (e: Exception){e.message
+                            Toast.makeText(this@AddEditActivity, e.message, Toast.LENGTH_SHORT).show()
                 }
             }) {
                 @Throws(AuthFailureError::class)
@@ -140,16 +151,24 @@ class AddEditActivity : AppCompatActivity() {
                     return headers
                 }
 
-                @Throws(AuthFailureError::class)
-                override fun getBody(): ByteArray {
-                    val gson = Gson()
-                    val requestBody = gson.toJson(upcoming)
-                    return requestBody.toByteArray(StandardCharsets.UTF_8)
+                override fun getParams(): MutableMap<String, String>? {
+                    val params = HashMap<String, String>()
+                    params["judul"] = upcoming.judul
+                    params["direktur"] = upcoming.direktur
+                    params["tanggal"] = upcoming.tanggal
+                    params["sinopsis"] = upcoming.sinopsis
+                    return params
                 }
-
-                override fun getBodyContentType(): String {
-                    return "application/json"
-                }
+//                @Throws(AuthFailureError::class)
+//                override fun getBody(): ByteArray {
+//                    val gson = Gson()
+//                    val requestBody = gson.toJson(upcoming)
+//                    return requestBody.toByteArray(StandardCharsets.UTF_8)
+//                }
+//
+//                override fun getBodyContentType(): String {
+//                    return "application/json"
+//                }
             }
         queue!!.add(stringRequest)
     }
@@ -166,11 +185,12 @@ class AddEditActivity : AppCompatActivity() {
 
         val stringRequest : StringRequest = object :
             StringRequest(Method.PUT, UpcomingApi.UPDATE_URL + id, Response.Listener { response ->
-                val gson = Gson()
+//                val gson = Gson()
+//                val jsonObject = JSONObject(response)
+//                var upcoming : Upcoming = gson.fromJson(jsonObject.getJSONArray("data")[].toString(), Upcoming::class.java)
+//              var upcoming = gson.fromJson(response, Upcoming::class.java)
 
-                var upcoming = gson.fromJson(response, Upcoming::class.java)
-
-                if(upcoming != null)
+//                if(upcoming != null)
                     Toast.makeText(this@AddEditActivity, "Data berhasil diupdate", Toast.LENGTH_SHORT).show()
 
                 val returnIntent = Intent()
@@ -200,15 +220,13 @@ class AddEditActivity : AppCompatActivity() {
                 return headers
             }
 
-            @Throws(AuthFailureError::class)
-            override fun getBody(): ByteArray {
-                val gson = Gson()
-                val requestBody = gson.toJson(upcoming)
-                return  requestBody.toByteArray(StandardCharsets.UTF_8)
-            }
-
-            override fun getBodyContentType(): String {
-                return "application/json"
+            override fun getParams(): MutableMap<String, String>? {
+                val params = HashMap<String, String>()
+                params["judul"] = upcoming.judul
+                params["direktur"] = upcoming.direktur
+                params["tanggal"] = upcoming.tanggal
+                params["sinopsis"] = upcoming.sinopsis
+                return params
             }
         }
         queue!!.add(stringRequest)
