@@ -111,14 +111,11 @@ class AddEditActivity : AppCompatActivity() {
         val stringRequest: StringRequest =
             object : StringRequest(Method.POST, UpcomingApi.ADD_URL, Response.Listener { response ->
                 val gson = Gson()
-                println("111")
 
                 val jsonObject = JSONObject(response)
-                println("222")
 
                 val upcoming = gson.fromJson(jsonObject.getJSONArray("data")[0].toString(), Upcoming::class.java)
 
-                println("333")
 
 //                var upcoming = gson.fromJson(response, Upcoming::class.java)
 
@@ -131,7 +128,7 @@ class AddEditActivity : AppCompatActivity() {
 
                 setLoading(false)
             }, Response.ErrorListener { error ->
-                println("444")
+
                 setLoading(false)
                 try {
                     val respondBody = String(error.networkResponse.data, StandardCharsets.UTF_8)
