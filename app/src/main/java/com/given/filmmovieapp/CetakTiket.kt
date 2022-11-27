@@ -32,6 +32,7 @@ import com.itextpdf.layout.element.Paragraph
 import com.itextpdf.layout.element.Table
 import com.itextpdf.layout.property.HorizontalAlignment
 import com.itextpdf.layout.property.TextAlignment
+import timber.log.Timber
 import www.sanju.motiontoast.MotionToast
 import www.sanju.motiontoast.MotionToastStyle
 
@@ -39,6 +40,7 @@ class CetakTiket : AppCompatActivity() {
     private var binding: ActivityCetakTiketBinding? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Timber.plant(Timber.DebugTree())
         binding = ActivityCetakTiketBinding.inflate(layoutInflater)
         val view: View = binding!!.root
         setContentView(view)
@@ -52,13 +54,16 @@ class CetakTiket : AppCompatActivity() {
             try {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     if (title.isEmpty() && date.isEmpty() && time.isEmpty() && row.isEmpty() && seat.isEmpty()) {
+                        Timber.d("DATA MASIH KOSONG")
                         Toast.makeText(
                             applicationContext,
                             "Semuanya Tidak Boleh Kosong",
                             Toast.LENGTH_SHORT
                         ).show()
                     } else {
+                        Timber.d("Judul = %s", title)
                         createPdf(title, date, time, row, seat)
+                        Timber.d("PDF DONE")
                     }
                 }
             } catch (e: FileNotFoundException) {
@@ -77,13 +82,12 @@ class CetakTiket : AppCompatActivity() {
         val pdfPath=Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString()
         val file= File(pdfPath,"tiket.pdf")
         FileOutputStream(file)
-
     val writer = PdfWriter(file)
     val pdfDocument = PdfDocument(writer)
     val document = Document(pdfDocument)
     pdfDocument.defaultPageSize = PageSize.A4
     document.setMargins(5f, 5f, 5f, 5f)
-    @SuppressLint("UseCompatLoadingForDrawables") val d = getDrawable(R.drawable.logo)
+    @SuppressLint("UseCompatLoadingForDrawables") val d = getDrawable(R.drawable.barcode)
 
     val bitmap = (d as BitmapDrawable?)!!.bitmap
     val stream = ByteArrayOutputStream()
@@ -118,7 +122,6 @@ class CetakTiket : AppCompatActivity() {
     val timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss a")
     table.addCell(Cell().add(Paragraph("Pukul Pembuatan")))
     table.addCell(Cell().add(Paragraph(LocalTime.now().format(timeFormatter))))
-
     val barcodeQRCode = BarcodeQRCode(
         """
                                         $title
@@ -131,7 +134,6 @@ class CetakTiket : AppCompatActivity() {
                                         """.trimIndent())
     val qrCodeObject = barcodeQRCode.createFormXObject(ColorConstants.BLACK, pdfDocument)
     val qrCodeImage = Image(qrCodeObject).setWidth(80f).setHorizontalAlignment(HorizontalAlignment.CENTER)
-
     document.add(image)
     document.add(namapengguna)
     document.add(group)
