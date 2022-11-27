@@ -82,6 +82,12 @@ class FragmentProfile : Fragment() {
                     .putExtra("intent_type", 2)
             )
         }
+        binding.buttonTiket.setOnClickListener {
+            startActivity(
+                Intent(requireActivity().applicationContext, CetakTiket::class.java)
+
+            )
+        }
         binding.imageView3.setOnClickListener {
             openCamera()
         }

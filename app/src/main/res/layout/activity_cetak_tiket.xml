@@ -1,0 +1,61 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".CetakTiket">
+
+    <EditText
+        android:id="@+id/editTextJudul"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:ems="10"
+        android:hint="Title"
+        android:inputType="textPersonName"/>
+
+    <EditText
+        android:id="@+id/editTextTanggal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:ems="10"
+        android:hint="Date"
+        android:inputType="textPersonName"/>
+
+    <EditText
+        android:id="@+id/editTextJam"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:ems="10"
+        android:hint="Time"
+        android:inputType="textPersonName"/>
+
+    <EditText
+        android:id="@+id/editTextRow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:ems="10"
+        android:hint="Row"
+        android:inputType="textPersonName"/>
+
+    <EditText
+        android:id="@+id/editTextSeat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:ems="10"
+        android:hint="Seat"
+        android:inputType="textPersonName"/>
+
+    <Button
+        android:id="@+id/buttonSave"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:text="Submit"/>
+
+</LinearLayout>

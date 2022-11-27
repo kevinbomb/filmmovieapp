@@ -9,6 +9,7 @@ import android.widget.LinearLayout
 import android.widget.SearchView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -23,6 +24,8 @@ import com.given.filmmovieapp.models.Upcoming
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.gson.Gson
 import org.json.JSONObject
+import www.sanju.motiontoast.MotionToast
+import www.sanju.motiontoast.MotionToastStyle
 import java.nio.charset.StandardCharsets
 
 class UpcomingActivity : AppCompatActivity() {
@@ -83,11 +86,9 @@ class UpcomingActivity : AppCompatActivity() {
                 srUpcoming!!.isRefreshing = false
 
                 if(!upcoming.isEmpty())
-                    Toast.makeText(this@UpcomingActivity, "Data berhasil diambil", Toast.LENGTH_SHORT)
-                        .show()
+                   motionToastSuccess()
                 else
-                    Toast.makeText(this@UpcomingActivity, "Data kosong!", Toast.LENGTH_SHORT)
-                        .show()
+                    motionToastFailed()
             }, Response.ErrorListener { error ->
                 srUpcoming!!.isRefreshing = false
                 AlertDialog.Builder(this)
@@ -167,5 +168,26 @@ class UpcomingActivity : AppCompatActivity() {
             window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
             layoutLoading!!.visibility = View.GONE
         }
+    }
+
+    private fun motionToastSuccess() {
+            MotionToast.createToast(this,
+            "Sukses",
+            "Data berhasil tertampil!",
+            MotionToastStyle.SUCCESS,
+            MotionToast.GRAVITY_BOTTOM,
+            MotionToast.LONG_DURATION,
+            ResourcesCompat.getFont(this, www.sanju.motiontoast.R.font.helvetica_regular))
+
+    }
+
+    private fun motionToastFailed(){
+        MotionToast.createToast(this,
+            "Failed ️",
+            "Data gagal tertampil!",
+            MotionToastStyle.ERROR,
+            MotionToast.GRAVITY_BOTTOM,
+            MotionToast.LONG_DURATION,
+            ResourcesCompat.getFont(this, www.sanju.motiontoast.R.font.helvetica_regular))
     }
 }

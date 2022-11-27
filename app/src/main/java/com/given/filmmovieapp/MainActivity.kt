@@ -28,6 +28,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+
 class MainActivity : AppCompatActivity() {
 //    private lateinit var inputUsername: TextInputLayout
 //    private lateinit var inputPassword: TextInputLayout
@@ -125,7 +126,6 @@ class MainActivity : AppCompatActivity() {
             binding?.inputLayoutPassword?.getEditText()?.setText(sharedPreferencesRegister!!.getString(passK, ""))
         }
     }
-
 
 
 }
