@@ -88,6 +88,12 @@ class FragmentProfile : Fragment() {
 
             )
         }
+        binding.buttonPromo.setOnClickListener {
+            startActivity(
+                Intent(requireActivity().applicationContext, CekPromo::class.java)
+
+            )
+        }
         binding.imageView3.setOnClickListener {
             openCamera()
         }
