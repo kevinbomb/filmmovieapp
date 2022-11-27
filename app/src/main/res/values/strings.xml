@@ -3,4 +3,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="updateReminder">Terus nantikan informasi film-film box office terbaru lainnya, dapatkan infonya eksklusif di aplikasi AJ 21!</string>
+    <string name="nama_film">Nama Film</string>
+    <string name="tanggal_rilis">Tanggal Rilis</string>
+    <string name="direktur">Direktur</string>
 </resources>
