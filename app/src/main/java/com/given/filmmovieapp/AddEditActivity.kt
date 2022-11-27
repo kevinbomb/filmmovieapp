@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import android.widget.*
+import androidx.core.content.res.ResourcesCompat
 import com.android.volley.AuthFailureError
 import com.android.volley.RequestQueue
 import com.android.volley.Response
@@ -15,6 +16,8 @@ import com.given.filmmovieapp.api.UpcomingApi
 import com.given.filmmovieapp.models.Upcoming
 import com.google.gson.Gson
 import org.json.JSONObject
+import www.sanju.motiontoast.MotionToast
+import www.sanju.motiontoast.MotionToastStyle
 import java.nio.charset.StandardCharsets
 
 class AddEditActivity : AppCompatActivity() {
@@ -72,7 +75,7 @@ class AddEditActivity : AppCompatActivity() {
                 etSinopsis!!.setText(upcoming.sinopsis)
 
 
-                Toast.makeText(this@AddEditActivity, "Data berhasil diambil!", Toast.LENGTH_SHORT).show()
+                motionToastSuccess()
                 setLoading(false)
             }, Response.ErrorListener { error ->
                 setLoading(false)
@@ -240,6 +243,17 @@ class AddEditActivity : AppCompatActivity() {
             window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
             layoutLoading!!.visibility = View.INVISIBLE
         }
+    }
+
+    private fun motionToastSuccess() {
+        MotionToast.createToast(this,
+            "Sukses",
+            "Data berhasil tertampil!",
+            MotionToastStyle.SUCCESS,
+            MotionToast.GRAVITY_BOTTOM,
+            MotionToast.LONG_DURATION,
+            ResourcesCompat.getFont(this, www.sanju.motiontoast.R.font.helvetica_regular))
+
     }
 
 }

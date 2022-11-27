@@ -15,12 +15,15 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import com.given.filmmovieapp.databinding.ActivityCekPromoBinding
 import com.google.mlkit.vision.barcode.BarcodeScanner
 import com.google.mlkit.vision.barcode.BarcodeScannerOptions
 import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.barcode.common.Barcode
 import com.google.mlkit.vision.common.InputImage
+import www.sanju.motiontoast.MotionToast
+import www.sanju.motiontoast.MotionToastStyle
 
 class CekPromo : AppCompatActivity() , View.OnClickListener{
     private lateinit var binding: ActivityCekPromoBinding
@@ -44,7 +47,7 @@ class CekPromo : AppCompatActivity() , View.OnClickListener{
         super.onCreate(savedInstanceState)
         binding = ActivityCekPromoBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        motionToastInfo()
         binding.cameraBtn.setOnClickListener(this)
         binding.galleryBtn.setOnClickListener(this)
         binding.scanBtn.setOnClickListener(this)
@@ -283,6 +286,15 @@ class CekPromo : AppCompatActivity() , View.OnClickListener{
                 }
             }
         }
+    }
+    private fun motionToastInfo() {
+        MotionToast.Companion.createToast(this,"",
+            "Silahkan Cek Promo Anda",
+            MotionToastStyle.INFO,
+            MotionToast.GRAVITY_BOTTOM,
+            MotionToast.LONG_DURATION,
+            ResourcesCompat.getFont(this, www.sanju.motiontoast.R.font.helvetica_regular))
+
     }
 
 }
