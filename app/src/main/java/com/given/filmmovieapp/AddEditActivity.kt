@@ -16,6 +16,7 @@ import com.given.filmmovieapp.api.UpcomingApi
 import com.given.filmmovieapp.models.Upcoming
 import com.given.filmmovieapp.models.User
 import com.google.gson.Gson
+import kotlinx.android.synthetic.main.activity_add_edit.*
 import org.json.JSONObject
 import www.sanju.motiontoast.MotionToast
 import www.sanju.motiontoast.MotionToastStyle
@@ -51,7 +52,45 @@ class AddEditActivity : AppCompatActivity() {
         val id = intent.getLongExtra("id", -1)
         if(id == -1L){
             tvTitle.setText("Tambah Upcoming Film")
-            btnSave.setOnClickListener { createUpcoming() }
+            btnSave.setOnClickListener {
+                if(et_judul!!.text.toString().isEmpty()){
+                    MotionToast.createColorToast(this@AddEditActivity,
+                        "Failed ☹️",
+                        "Judul tidak boleh kosong!",
+                        MotionToastStyle.ERROR,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.LONG_DURATION,
+                        ResourcesCompat.getFont(this, www.sanju.motiontoast.R.font.helvetica_regular))
+                }else if (et_direktur!!.text.toString().isEmpty()){
+                    MotionToast.createColorToast(this@AddEditActivity,
+                        "Failed ☹️",
+                        "Nama Direktur tidak boleh kosong!",
+                        MotionToastStyle.ERROR,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.LONG_DURATION,
+                        ResourcesCompat.getFont(this, www.sanju.motiontoast.R.font.helvetica_regular))
+                }else if(et_tanggal!!.text.toString().isEmpty()){
+                    MotionToast.createColorToast(this@AddEditActivity,
+                        "Failed ☹️",
+                        "Tanggal tidak boleh kosong!",
+                        MotionToastStyle.ERROR,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.LONG_DURATION,
+                        ResourcesCompat.getFont(this, www.sanju.motiontoast.R.font.helvetica_regular))
+                }else if(et_sinopsis!!.text.toString().isEmpty()){
+                    MotionToast.createColorToast(this@AddEditActivity,
+                        "Failed ☹️",
+                        "Sinopsis tidak boleh kosong!",
+                        MotionToastStyle.ERROR,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.LONG_DURATION,
+                        ResourcesCompat.getFont(this, www.sanju.motiontoast.R.font.helvetica_regular))
+                }else {
+                    createUpcoming()
+                    val moveUpcoming=Intent(this,UpcomingActivity::class.java)
+                    startActivity(moveUpcoming)
+                }
+            }
         } else  {
             tvTitle.setText("Edit Upcoming Film")
             getUpcomingByid(id)
@@ -105,61 +144,70 @@ class AddEditActivity : AppCompatActivity() {
     private fun createUpcoming(){
         setLoading(true)
 
-        val upcoming = Upcoming(
-            etJudul!!.text.toString(),
-            etDirektur!!.text.toString(),
-            etTanggal!!.text.toString(),
-            etSinopsis!!.text.toString(),
-        )
 
-        val stringRequest: StringRequest =
-            object : StringRequest(Method.POST, UpcomingApi.ADD_URL, Response.Listener { response ->
-                val gson = Gson()
+            val upcoming = Upcoming(
+                etJudul!!.text.toString(),
+                etDirektur!!.text.toString(),
+                etTanggal!!.text.toString(),
+                etSinopsis!!.text.toString(),
+            )
 
-                val jsonObject = JSONObject(response)
+            val stringRequest: StringRequest =
+                object :
+                    StringRequest(Method.POST, UpcomingApi.ADD_URL, Response.Listener { response ->
+                        val gson = Gson()
 
-               // val respond = gson.fromJson(jsonObject.getJSONArray("data")[0].toString(), Upcoming::class.java)
-                val respond = gson.fromJson(response, Upcoming::class.java)
+                       // val jsonObject = JSONObject(response)
+
+                        // val respond = gson.fromJson(jsonObject.getJSONArray("data")[0].toString(), Upcoming::class.java)
+                        val respond = gson.fromJson(response, Upcoming::class.java)
 
 //                var upcoming = gson.fromJson(response, Upcoming::class.java)
 
-                if(upcoming != null)
-                    Toast.makeText( this@AddEditActivity, "Data berhasil ditambahkan", Toast.LENGTH_SHORT).show()
+                        if (upcoming != null)
+                            Toast.makeText(
+                                this@AddEditActivity,
+                                "Data berhasil ditambahkan",
+                                Toast.LENGTH_SHORT
+                            ).show()
 
-                val returnIntent = Intent()
-                setResult(RESULT_OK, returnIntent)
-                finish()
+                        val returnIntent = Intent()
+                        setResult(RESULT_OK, returnIntent)
+                        finish()
 
-                setLoading(false)
-            }, Response.ErrorListener { error ->
+                        setLoading(false)
+                    }, Response.ErrorListener { error ->
 
-                setLoading(false)
-                try {
-                    val respondBody = String(error.networkResponse.data, StandardCharsets.UTF_8)
-                    val errors = JSONObject(respondBody)
-                    Toast.makeText(
-                        this@AddEditActivity, errors.getString("messsage"),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                } catch (e: Exception){e.message
-                            Toast.makeText(this@AddEditActivity, e.message, Toast.LENGTH_SHORT).show()
-                }
-            }) {
-                @Throws(AuthFailureError::class)
-                override fun getHeaders(): Map<String, String> {
-                    val headers = HashMap<String, String>()
-                    headers["Accept"] = "application/json"
-                    return headers
-                }
+                        setLoading(false)
+                        try {
+                            val respondBody =
+                                String(error.networkResponse.data, StandardCharsets.UTF_8)
+                            val errors = JSONObject(respondBody)
+                            Toast.makeText(
+                                this@AddEditActivity, errors.getString("messsage"),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        } catch (e: Exception) {
+                            e.message
+                            Toast.makeText(this@AddEditActivity, e.message, Toast.LENGTH_SHORT)
+                                .show()
+                        }
+                    }) {
+                    @Throws(AuthFailureError::class)
+                    override fun getHeaders(): Map<String, String> {
+                        val headers = HashMap<String, String>()
+                        headers["Accept"] = "application/json"
+                        return headers
+                    }
 
-                override fun getParams(): MutableMap<String, String>? {
-                    val params = HashMap<String, String>()
-                    params["judul"] = upcoming.judul
-                    params["direktur"] = upcoming.direktur
-                    params["tanggal"] = upcoming.tanggal
-                    params["sinopsis"] = upcoming.sinopsis
-                    return params
-                }
+                    override fun getParams(): MutableMap<String, String>? {
+                        val params = HashMap<String, String>()
+                        params["judul"] = upcoming.judul
+                        params["direktur"] = upcoming.direktur
+                        params["tanggal"] = upcoming.tanggal
+                        params["sinopsis"] = upcoming.sinopsis
+                        return params
+                    }
 //                @Throws(AuthFailureError::class)
 //                override fun getBody(): ByteArray {
 //                    val gson = Gson()
@@ -170,8 +218,10 @@ class AddEditActivity : AppCompatActivity() {
 //                override fun getBodyContentType(): String {
 //                    return "application/json"
 //                }
-            }
-        queue!!.add(stringRequest)
+                }
+            queue!!.add(stringRequest)
+
+
     }
 
     private fun updateUpcoming(id:Long){
