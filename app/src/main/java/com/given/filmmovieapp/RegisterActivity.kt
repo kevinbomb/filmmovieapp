@@ -15,15 +15,26 @@ import android.os.Bundle
 import android.view.View
 import com.google.android.material.textfield.TextInputLayout
 import android.widget.DatePicker
+import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import com.android.volley.AuthFailureError
+import com.android.volley.RequestQueue
+import com.android.volley.Response
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
+import com.given.filmmovieapp.api.UpcomingApi
+import com.given.filmmovieapp.api.UserApi
 import com.given.filmmovieapp.databinding.ActivityRegisterBinding
+import com.given.filmmovieapp.models.Upcoming
+import com.given.filmmovieapp.models.User
 import com.given.filmmovieapp.notification.NotificationReceiver
-import com.given.filmmovieapp.room.user.User
-import com.given.filmmovieapp.room.user.UserDB
+import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.json.JSONObject
+import java.nio.charset.StandardCharsets
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -37,13 +48,14 @@ class RegisterActivity : AppCompatActivity() {
 
     var date = Calendar.getInstance()
 
-    val dbU by lazy { UserDB(this) }
+//    val dbU by lazy { UserDB(this) }
     private lateinit var binding: ActivityRegisterBinding
 
     private val myPreference = "myPref"
     private val usernameK = "usernameKey"
     private val passK = "passKey"
     var sharedPreferencesRegister: SharedPreferences? = null
+    private var queue: RequestQueue? = null
 
     private val CHANNEL_ID_1 = "channel_notification_01"
     private val notificationId1 = 101
@@ -52,6 +64,8 @@ class RegisterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 //        setContentView(R.layout.activity_register)
         supportActionBar?.hide()
+
+        queue = Volley.newRequestQueue(this)
         //binding view==============
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -120,12 +134,73 @@ class RegisterActivity : AppCompatActivity() {
             if(!username.isEmpty() && !password.isEmpty()&& !email.isEmpty() && !telp.isEmpty()&& !tgl.isEmpty()){
                 checkLogin=true
 
-                CoroutineScope(Dispatchers.IO).launch {
-                    dbU.userDao().addUser(
-                        User(0, email, username, password, tgl, telp)
-                    )
-                    finish()
-                }
+                val user = User(
+                    email,
+                    username,
+                    password,
+                    tgl,
+                    telp,
+                )
+
+                val stringRequest: StringRequest =
+                    object : StringRequest(Method.POST, UserApi.ADD_URL, Response.Listener { response ->
+                        val gson = Gson()
+
+                        val jsonObject = JSONObject(response)
+
+                        val user = gson.fromJson(jsonObject.getJSONArray("data")[0].toString(), User::class.java)
+
+
+//                var upcoming = gson.fromJson(response, Upcoming::class.java)
+
+                        if(user != null)
+                            Toast.makeText( this@RegisterActivity, "Data berhasil ditambahkan", Toast.LENGTH_SHORT).show()
+
+                        val returnIntent = Intent()
+                        setResult(RESULT_OK, returnIntent)
+                        finish()
+
+                    }, Response.ErrorListener { error ->
+
+                        try {
+                            val respondBody = String(error.networkResponse.data, StandardCharsets.UTF_8)
+                            val errors = JSONObject(respondBody)
+                            Toast.makeText(
+                                this@RegisterActivity, errors.getString("messsage"),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        } catch (e: Exception){e.message
+                            Toast.makeText(this@RegisterActivity, e.message, Toast.LENGTH_SHORT).show()
+                        }
+                    }) {
+                        @Throws(AuthFailureError::class)
+                        override fun getHeaders(): Map<String, String> {
+                            val headers = HashMap<String, String>()
+                            headers["Accept"] = "application/json"
+                            return headers
+                        }
+
+                        override fun getParams(): MutableMap<String, String>? {
+                            val params = HashMap<String, String>()
+                            params["email"] = user.email
+                            params["username"] = user.username
+                            params["password"] = user.password
+                            params["tanggalLahir"] = user.tangalLahir
+                            params["noTelepon"] = user.noTelepon
+                            return params
+                        }
+//                @Throws(AuthFailureError::class)
+//                override fun getBody(): ByteArray {
+//                    val gson = Gson()
+//                    val requestBody = gson.toJson(upcoming)
+//                    return requestBody.toByteArray(StandardCharsets.UTF_8)
+//                }
+//
+//                override fun getBodyContentType(): String {
+//                    return "application/json"
+//                }
+                    }
+                queue!!.add(stringRequest)
 
                 //save to shareP
                 var strUserName: String = binding.inputLayoutUsername.editText?.text.toString().trim()

@@ -30,8 +30,7 @@ import com.given.filmmovieapp.api.UserApi
 import com.given.filmmovieapp.databinding.ActivityMainBinding
 import com.given.filmmovieapp.databinding.ActivityRegisterBinding
 import com.given.filmmovieapp.models.Upcoming
-import com.given.filmmovieapp.room.user.User
-import com.given.filmmovieapp.room.user.UserDB
+import com.given.filmmovieapp.models.User
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -48,7 +47,7 @@ class MainActivity : AppCompatActivity() {
 //    private lateinit var btnRegister: Button
 //    private lateinit var mainLayout: ConstraintLayout
 
-    val dbU by lazy { UserDB(this) }
+//    val dbU by lazy { UserDB(this) }
     private lateinit var binding: ActivityMainBinding
 
     private val myPreference = "myPref"
@@ -133,7 +132,7 @@ class MainActivity : AppCompatActivity() {
                         val editor: SharedPreferences.Editor = sharedPreferencesRegister!!.edit()
                         editor.putString(usernameK, username)
                         editor.putString(passK, password)
-                        editor.putInt("id", u.id)
+//                        editor.putInt("id", u.id)
                         editor.apply()
 
                         startActivity(intent)
