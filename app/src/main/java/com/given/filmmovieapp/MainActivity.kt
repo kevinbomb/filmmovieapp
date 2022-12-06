@@ -13,6 +13,7 @@ import android.graphics.Color
 import android.os.Build
 import android.view.View
 import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.material.snackbar.Snackbar
@@ -20,13 +21,23 @@ import com.google.android.material.textfield.TextInputLayout
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import com.android.volley.AuthFailureError
+import com.android.volley.RequestQueue
+import com.android.volley.Response
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
+import com.given.filmmovieapp.api.UserApi
 import com.given.filmmovieapp.databinding.ActivityMainBinding
 import com.given.filmmovieapp.databinding.ActivityRegisterBinding
+import com.given.filmmovieapp.models.Upcoming
 import com.given.filmmovieapp.room.user.User
 import com.given.filmmovieapp.room.user.UserDB
+import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.json.JSONObject
+import java.nio.charset.StandardCharsets
 
 
 class MainActivity : AppCompatActivity() {
@@ -44,13 +55,14 @@ class MainActivity : AppCompatActivity() {
     private val usernameK = "usernameKey"
     private val passK = "passKey"
     var sharedPreferencesRegister: SharedPreferences? = null
-
+    private var queue: RequestQueue? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         supportActionBar?.hide()
 
+        queue = Volley.newRequestQueue(this)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -80,32 +92,7 @@ class MainActivity : AppCompatActivity() {
                 cekLogin = false
             }
 
-            CoroutineScope(Dispatchers.IO).launch {
-                var resultCheckUser: List<User> = dbU.userDao().checkUser(username,password)
-                println("hasil: " + resultCheckUser)
-
-                if(resultCheckUser.isNullOrEmpty()){
-                    Snackbar.make(binding.mainLayout,"Username atau Password Salah!", Snackbar.LENGTH_LONG).show()
-                    return@launch
-                }
-
-                if(resultCheckUser[0].username.equals(username) && resultCheckUser[0].password.equals(password)){
-                    cekLogin=true
-
-                    val intent=Intent(this@MainActivity, HomeActivity::class.java)
-                    intent.putExtra("usernameLogin",username)
-                    intent.putExtra("idLogin",resultCheckUser[0].id)
-
-
-                    val editor: SharedPreferences.Editor= sharedPreferencesRegister!!.edit()
-                    editor.putString(usernameK,username)
-                    editor.putString(passK,password)
-                    editor.apply()
-
-                    startActivity(intent)
-                }
-            }
-
+            allUser(username,password)
 
         })
 
@@ -126,6 +113,61 @@ class MainActivity : AppCompatActivity() {
             binding?.inputLayoutPassword?.getEditText()?.setText(sharedPreferencesRegister!!.getString(passK, ""))
         }
     }
+
+    private fun allUser(username:String, password:String){
+        val stringRequest : StringRequest = object:
+            StringRequest(Method.GET, UserApi.GET_ALL_URL, Response.Listener { response ->
+
+                val gson = Gson()
+                val jsonObject = JSONObject(response)
+                var user : Array<User> = gson.fromJson(jsonObject.getJSONArray("data").toString(), Array<User>::class.java)
+
+                for (u in user) {
+                    if (u.username == username && u.password == password) {
+                        // berhasil login
+                        val intent = Intent(this@MainActivity, HomeActivity::class.java)
+                        intent.putExtra("usernameLogin", username)
+                        intent.putExtra("idLogin", u.id)
+
+
+                        val editor: SharedPreferences.Editor = sharedPreferencesRegister!!.edit()
+                        editor.putString(usernameK, username)
+                        editor.putString(passK, password)
+                        editor.putInt("id", u.id)
+                        editor.apply()
+
+                        startActivity(intent)
+                        return@Listener
+                    }
+                }
+
+                // gagal login
+                if(!user.isEmpty())
+                    Toast.makeText(this@MainActivity, "Data berhasil diambil", Toast.LENGTH_SHORT).show()
+                else
+                    Toast.makeText(this@MainActivity, "Data Kosong!", Toast.LENGTH_SHORT).show()
+
+            }, Response.ErrorListener { error ->
+                try {
+                    val responseBody =
+                        String(error.networkResponse.data, StandardCharsets.UTF_8)
+                    val errors = JSONObject(responseBody)
+                    Toast.makeText(this@MainActivity, errors.getString("message"), Toast.LENGTH_SHORT).show()
+                } catch (e: Exception){
+                    Toast.makeText(this@MainActivity, e.message, Toast.LENGTH_SHORT).show()
+                }
+            }) {
+            @Throws(AuthFailureError::class)
+            override fun getHeaders(): Map<String, String> {
+                val headers = HashMap<String, String>()
+                headers["Accept"] = "application/json"
+                return headers
+            }
+
+        }
+        queue!!.add(stringRequest)
+    }
+
 
 
 }
