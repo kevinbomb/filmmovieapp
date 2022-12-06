@@ -21,6 +21,7 @@ import com.google.android.material.textfield.TextInputLayout
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.res.ResourcesCompat
 import com.android.volley.AuthFailureError
 import com.android.volley.RequestQueue
 import com.android.volley.Response
@@ -36,6 +37,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.json.JSONObject
+import www.sanju.motiontoast.MotionToast
+import www.sanju.motiontoast.MotionToastStyle
 import java.nio.charset.StandardCharsets
 
 
@@ -82,16 +85,28 @@ class MainActivity : AppCompatActivity() {
             val password: String = binding?.inputLayoutPassword?.getEditText()?.getText().toString()
 
             if(username.isEmpty()){
-                binding?.inputLayoutUsername?.setError("Username Tidak Boleh Kosong")
+                MotionToast.createColorToast(this@MainActivity,
+                    "Failed ☹️",
+                    "Username tidak boleh kosong!",
+                    MotionToastStyle.ERROR,
+                    MotionToast.GRAVITY_BOTTOM,
+                    MotionToast.LONG_DURATION,
+                    ResourcesCompat.getFont(this, www.sanju.motiontoast.R.font.helvetica_regular))
                 cekLogin = false
+            }else if(password.isEmpty()){
+                MotionToast.createColorToast(this@MainActivity,
+                    "Failed ☹️",
+                    "Password tidak boleh kosong!",
+                    MotionToastStyle.ERROR,
+                    MotionToast.GRAVITY_BOTTOM,
+                    MotionToast.LONG_DURATION,
+                    ResourcesCompat.getFont(this, www.sanju.motiontoast.R.font.helvetica_regular))
+                cekLogin = false
+            }else{
+                allUser(username,password)
             }
 
-            if(password.isEmpty()){
-                binding?.inputLayoutPassword?.setError("Password Tidak Boleh Kosong")
-                cekLogin = false
-            }
 
-            allUser(username,password)
 
         })
 
@@ -124,6 +139,13 @@ class MainActivity : AppCompatActivity() {
                 for (u in user) {
                     if (u.username == username && u.password == password) {
                         // berhasil login
+                        MotionToast.createColorToast(this@MainActivity,
+                            "SUKSES ️",
+                            "Login Berhasil!",
+                            MotionToastStyle.SUCCESS,
+                            MotionToast.GRAVITY_BOTTOM,
+                            MotionToast.LONG_DURATION,
+                            ResourcesCompat.getFont(this, www.sanju.motiontoast.R.font.helvetica_regular))
                         val intent = Intent(this@MainActivity, HomeActivity::class.java)
                         intent.putExtra("usernameLogin", username)
                         intent.putExtra("idLogin", u.id)
@@ -137,14 +159,22 @@ class MainActivity : AppCompatActivity() {
 
                         startActivity(intent)
                         return@Listener
+                    }else{
+                        MotionToast.createColorToast(this@MainActivity,
+                            "Failed️",
+                            "Username / Password salah !",
+                            MotionToastStyle.ERROR,
+                            MotionToast.GRAVITY_BOTTOM,
+                            MotionToast.LONG_DURATION,
+                            ResourcesCompat.getFont(this, www.sanju.motiontoast.R.font.helvetica_regular))
                     }
                 }
 
                 // gagal login
-                if(!user.isEmpty())
-                    Toast.makeText(this@MainActivity, "Data berhasil diambil", Toast.LENGTH_SHORT).show()
-                else
-                    Toast.makeText(this@MainActivity, "Data Kosong!", Toast.LENGTH_SHORT).show()
+//                if(!user.isEmpty())
+//                    Toast.makeText(this@MainActivity, "Data berhasil diambil", Toast.LENGTH_SHORT).show()
+//                else
+//                    Toast.makeText(this@MainActivity, "Data Kosong!", Toast.LENGTH_SHORT).show()
 
             }, Response.ErrorListener { error ->
                 try {

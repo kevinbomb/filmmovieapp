@@ -14,6 +14,7 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.given.filmmovieapp.api.UpcomingApi
 import com.given.filmmovieapp.models.Upcoming
+import com.given.filmmovieapp.models.User
 import com.google.gson.Gson
 import org.json.JSONObject
 import www.sanju.motiontoast.MotionToast
@@ -117,8 +118,8 @@ class AddEditActivity : AppCompatActivity() {
 
                 val jsonObject = JSONObject(response)
 
-                val upcoming = gson.fromJson(jsonObject.getJSONArray("data")[0].toString(), Upcoming::class.java)
-
+               // val respond = gson.fromJson(jsonObject.getJSONArray("data")[0].toString(), Upcoming::class.java)
+                val respond = gson.fromJson(response, Upcoming::class.java)
 
 //                var upcoming = gson.fromJson(response, Upcoming::class.java)
 

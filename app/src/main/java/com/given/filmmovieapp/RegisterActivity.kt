@@ -18,6 +18,7 @@ import android.widget.DatePicker
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.res.ResourcesCompat
 import com.android.volley.AuthFailureError
 import com.android.volley.RequestQueue
 import com.android.volley.Response
@@ -34,6 +35,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.json.JSONObject
+import www.sanju.motiontoast.MotionToast
+import www.sanju.motiontoast.MotionToastStyle
 import java.nio.charset.StandardCharsets
 import java.text.SimpleDateFormat
 import java.util.*
@@ -107,36 +110,68 @@ class RegisterActivity : AppCompatActivity() {
             val telp:String=binding?.inputLayoutTelp?.getEditText()?.getText().toString()
 
             if(username.isEmpty()){
-                binding?.inputLayoutUsername?.setError("Username must be filled with text")
+                MotionToast.createColorToast(this@RegisterActivity,
+                    "Failed ☹️",
+                    "Username tidak boleh kosong!",
+                    MotionToastStyle.ERROR,
+                    MotionToast.GRAVITY_BOTTOM,
+                    MotionToast.LONG_DURATION,
+                    ResourcesCompat.getFont(this, www.sanju.motiontoast.R.font.helvetica_regular))
                 checkLogin=false
             }
 
-            if(password.isEmpty()){
-                binding?.inputLayoutPassword?.setError("Password must be filled with text")
+            else if(password.isEmpty()){
+                MotionToast.createColorToast(this@RegisterActivity,
+                    "Failed ☹️",
+                    "Password tidak boleh kosong!",
+                    MotionToastStyle.ERROR,
+                    MotionToast.GRAVITY_BOTTOM,
+                    MotionToast.LONG_DURATION,
+                    ResourcesCompat.getFont(this, www.sanju.motiontoast.R.font.helvetica_regular))
                 checkLogin=false
             }
 
-            if(email.isEmpty()){
-                binding?.inputLayoutEmail?.setError("Email must be filled with text")
+            else if(email.isEmpty()){
+                MotionToast.createColorToast(this@RegisterActivity,
+                    "Failed ☹️",
+                    "Email tidak boleh kosong!",
+                    MotionToastStyle.ERROR,
+                    MotionToast.GRAVITY_BOTTOM,
+                    MotionToast.LONG_DURATION,
+                    ResourcesCompat.getFont(this, www.sanju.motiontoast.R.font.helvetica_regular))
                 checkLogin=false
             }
 
-            if(tgl.isEmpty()){
-                binding?.inputLayoutTanggal?.setError("Tanggal must be filled with text")
+            else if(telp.isEmpty()){
+                MotionToast.createColorToast(this@RegisterActivity,
+                    "Failed ☹️",
+                    "Nomor Telepon tidak boleh kosong!",
+                    MotionToastStyle.ERROR,
+                    MotionToast.GRAVITY_BOTTOM,
+                    MotionToast.LONG_DURATION,
+                    ResourcesCompat.getFont(this, www.sanju.motiontoast.R.font.helvetica_regular))
                 checkLogin=false
             }
 
-            if(telp.isEmpty()){
-                binding?.inputLayoutTelp?.setError("Telp must be filled with text")
+            else if(tgl.isEmpty()){
+                MotionToast.createColorToast(this@RegisterActivity,
+                    "Failed ☹️",
+                    "Tanggal tidak boleh kosong!",
+                    MotionToastStyle.ERROR,
+                    MotionToast.GRAVITY_BOTTOM,
+                    MotionToast.LONG_DURATION,
+                    ResourcesCompat.getFont(this, www.sanju.motiontoast.R.font.helvetica_regular))
                 checkLogin=false
             }
 
-            if(!username.isEmpty() && !password.isEmpty()&& !email.isEmpty() && !telp.isEmpty()&& !tgl.isEmpty()){
+
+
+            else if(!username.isEmpty() && !password.isEmpty()&& !email.isEmpty() && !telp.isEmpty()&& !tgl.isEmpty()){
                 checkLogin=true
 
                 val user = User(
-                    email,
                     username,
+                    email,
                     password,
                     tgl,
                     telp,
@@ -146,11 +181,11 @@ class RegisterActivity : AppCompatActivity() {
                     object : StringRequest(Method.POST, UserApi.ADD_URL, Response.Listener { response ->
                         val gson = Gson()
 
-                        val jsonObject = JSONObject(response)
+                       // val jsonObject = JSONObject(response)
 
-                        val user = gson.fromJson(jsonObject.getJSONArray("data")[0].toString(), User::class.java)
+                        //val user = gson.fromJson(jsonObject.getJSONArray("data")[0].toString(), User::class.java)
 
-
+                        val respond = gson.fromJson(response, User::class.java)
 //                var upcoming = gson.fromJson(response, Upcoming::class.java)
 
                         if(user != null)
