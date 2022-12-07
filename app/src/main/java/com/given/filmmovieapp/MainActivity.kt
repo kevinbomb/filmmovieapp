@@ -64,6 +64,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         supportActionBar?.hide()
 
+
         queue = Volley.newRequestQueue(this)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
