@@ -2,7 +2,7 @@ package com.given.filmmovieapp.api
 
 class UpcomingApi {
     companion object{
-        val BASE_URL="http://192.168.1.7/ci4/ci4/public/"
+        val BASE_URL="http://192.168.0.101/ci4/ci4/public/"
 
         val GET_ALL_URL = BASE_URL + "upcoming/"
         val GET_BY_ID_URL = BASE_URL + "upcoming/"

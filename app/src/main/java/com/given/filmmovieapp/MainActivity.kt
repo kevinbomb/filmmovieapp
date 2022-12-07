@@ -155,7 +155,7 @@ class MainActivity : AppCompatActivity() {
                         val editor: SharedPreferences.Editor = sharedPreferencesRegister!!.edit()
                         editor.putString(usernameK, username)
                         editor.putString(passK, password)
-//                        editor.putInt("id", u.id)
+                        u.id?.let { editor.putLong("id", it) }
                         editor.apply()
 
                         startActivity(intent)
