@@ -48,6 +48,13 @@ class FragmentUpcoming : Fragment() {
 
             )
         }
+
+        binding.buttonFnb.setOnClickListener {
+            startActivity(
+                Intent(requireActivity().applicationContext, FnbActivity::class.java)
+
+            )
+        }
     }
 
 
