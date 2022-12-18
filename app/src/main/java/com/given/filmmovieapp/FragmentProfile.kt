@@ -17,6 +17,7 @@ import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.given.filmmovieapp.UpcomingActivity.Companion.LAUNCH_ADD_ACTIVITY
 import com.given.filmmovieapp.api.UserApi
 import com.given.filmmovieapp.databinding.FragmentProfileBinding
 import com.given.filmmovieapp.models.Upcoming
@@ -39,18 +40,10 @@ import java.nio.charset.StandardCharsets
  * create an instance of this fragment.
  */
 class FragmentProfile : Fragment() {
-//    val dbUser by lazy { UserDB(requireContext()) }
     private var queue: RequestQueue? = null
 
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
-//    lateinit var viewUsername: TextView
-//    lateinit var viewEmail: TextView
-//    lateinit var viewTelepon: TextView
-//    lateinit var viewTanggal: TextView
-//
-//    lateinit var btnCamera: ImageView
-//    lateinit var btnUpdate:Button
 
 
 
@@ -74,16 +67,6 @@ class FragmentProfile : Fragment() {
         val aidi:Long = requireActivity().getSharedPreferences("myPref", Context.MODE_PRIVATE).getLong("id", 0)
 
         val userId= requireActivity().intent.getIntExtra("idLogin",0)
-//        CoroutineScope(Dispatchers.IO).launch{
-//            println("user id=" + userId)
-//            val resultCheckUser: List<User> = dbUser.userDao().getUserId(userId)
-//            println("hasil=" + resultCheckUser)
-//            binding.tvUsername.setText(resultCheckUser[0].username)
-//            binding.tvEmail.setText(resultCheckUser[0].email)
-//            binding.tvPhone.setText(resultCheckUser[0].noTelepon)
-//            binding.tvDate.setText(resultCheckUser[0].tanggalLahir)
-//
-//        }
 
         val stringRequest : StringRequest = object:
             StringRequest(Method.GET, UserApi.GET_BY_ID_URL + aidi, Response.Listener { response ->
@@ -96,7 +79,6 @@ class FragmentProfile : Fragment() {
                 binding.tvEmail.text = user.email
                 binding.tvPhone.text = user.noTelepon
                 binding.tvDate.text = user.tanggalLahir
-//                val tempId = userId
             }, Response.ErrorListener { error ->
                 try{
                     val responseBody = String(error.networkResponse.data, StandardCharsets.UTF_8)

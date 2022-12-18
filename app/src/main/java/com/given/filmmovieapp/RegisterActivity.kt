@@ -220,7 +220,7 @@ class RegisterActivity : AppCompatActivity() {
                             params["email"] = user.email
                             params["username"] = user.username
                             params["password"] = user.password
-                            params["tanggalLahir"] = user.tangalLahir
+                            params["tanggalLahir"] = user.tanggalLahir
                             params["noTelepon"] = user.noTelepon
                             return params
                         }
